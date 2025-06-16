@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GetAway - Digital Menu Solution for Hotels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        /* ===== Base Styles ===== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f9f9;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* ===== Header ===== */
+        header {
+            background: linear-gradient(to right, rgb(245, 3, 3), rgb(40, 230, 7));
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            background-color: rgb(40, 230, 7);
+            border-radius: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .logo-text span {
+            color: rgb(40, 230, 7);
+            background: white;
+            padding: 0 5px;
+            border-radius: 5px;
+            margin-left: 3px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 8px 15px;
+            transition: all 0.3s;
+            border-radius: 20px;
+        }
+        
+        nav ul li a:hover {
+            color: rgb(245, 3, 3);
+            background-color: rgba(255,255,255,0.9);
+        }
+        
+        /* ===== Hero Section ===== */
+        .hero {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1568084680786-a84f91d1153c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            position: relative;
+            margin-top: 70px;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            max-width: 600px;
+            padding: 0 20px;
+        }
+        
+        .hero-content h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, rgb(245, 3, 3), rgb(40, 230, 7));
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: rgb(245, 3, 3);
+            margin-left: 15px;
+        }
+        
+        /* ===== Benefits Section ===== */
+        .benefits {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: rgb(240, 8, 8);
+            margin-bottom: 15px;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            border-top: 4px solid rgb(40, 230, 7);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: rgb(40, 230, 7);
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        /* ===== How It Works ===== */
+        .how-it-works {
+            padding: 80px 0;
+            background: #f5f5f5;
+        }
+        
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .step-number {
+            width: 50px;
+            height: 50px;
+            background: rgb(245, 3, 3);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+        }
+        
+        /* ===== Testimonials ===== */
+        .testimonials {
+            padding: 80px 0;
+            background: white;
+        }
+        
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .testimonial {
+            background: #f5f5f5;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+        }
+        
+        .testimonial::before {
+            content: '"';
+            font-size: 5rem;
+            color: rgba(40, 230, 7, 0.1);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        
+        .testimonial-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #ddd;
+            margin-right: 15px;
+            overflow: hidden;
+        }
+        
+        /* ===== CTA Section ===== */
+        .cta {
+            padding: 80px 0;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* ===== Footer ===== */
+        footer {
+            background: #222;
+            color: white;
+            padding: 50px 0 20px;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: rgb(40, 230, 7);
+        }
+        
+        .copyright {
+            margin-top: 30px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* ===== Responsive Styles ===== */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-container {
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 15px;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo-container">
+                <div class="logo-img">G</div>
+                <div class="logo-text">Get<span>Away</span></div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#benefits">Benefits</a></li>
+                    <li><a href="#how-it-works">How It Works</a></li>
+                    <li><a href="#testimonials">Testimonials</a></li>
+                    <li><a href="demo.html">View Demo</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Transform Your Hotel's Dining Experience</h1>
+            <p>GetAway is the digital menu solution that enhances guest satisfaction while streamlining your restaurant operations.</p>
+            <div>
+                <a href="#contact" class="btn">Request a Demo</a>
+                <a href="demo.html" class="btn btn-secondary">View Live Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Hotels Choose GetAway</h2>
+                <p>Powerful features designed specifically for the hospitality industry</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Modern Digital Menus</h3>
+                    <p>Replace printed menus with beautiful, interactive digital versions that guests can access from their own devices.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>Seamless WiFi Integration</h3>
+                    <p>Automatically detect hotel guests and welcome them with your menu when they connect to your WiFi.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Room Service Made Easy</h3>
+                    <p>Guests can order directly to their rooms with our intuitive ordering system.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Real-time Analytics</h3>
+                    <p>Track popular items, peak ordering times, and guest preferences to optimize your offerings.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Instant Menu Updates</h3>
+                    <p>Change your menu anytime without reprinting costs or delays.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <h3>Increase Revenue</h3>
+                    <p>Upsell opportunities and impulse purchases increase with beautiful food photography and descriptions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <div class="section-title">
+                <h2>Simple Implementation</h2>
+                <p>Get started with GetAway in just a few easy steps</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Sign Up</h3>
+                    <p>Create your account and provide basic information about your hotel.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Customize</h3>
+                    <p>Upload your menu, add photos, and customize the design to match your brand.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Integrate</h3>
+                    <p>Add our code to your WiFi landing page or provide the link to guests.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Go Live</h3>
+                    <p>Start offering the digital menu experience to your guests.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-title">
+                <h2>What Our Clients Say</h2>
+                <p>Hotels using GetAway are seeing real results</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Since implementing GetAway, our room service orders have increased by 35%. The system pays for itself with the increased revenue."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar"></div>
+                            <div>
+                                <h4>Michael Johnson</h4>
+                                <p>General Manager, CityView Hotel</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Our guests love the convenience of ordering from their phones. No more waiting for printed menus to be delivered to rooms."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar"></div>
+                            <div>
+                                <h4>Sarah Williams</h4>
+                                <p>Food & Beverage Director, Coastal Resort</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"The WiFi integration is brilliant. Guests automatically see our menu when they connect, which has significantly increased our restaurant traffic."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar"></div>
+                            <div>
+                                <h4>David Chen</h4>
+                                <p>IT Manager, Metropolitan Suites</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Ready to Upgrade Your Hotel's Dining Experience?</h2>
+            <p>Join hundreds of hotels already using GetAway to modernize their guest services.</p>
+            <a href="#contact" class="btn">Request a Demo</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="logo-container" style="justify-content: center; margin-bottom: 20px;">
+                <div class="logo-img">G</div>
+                <div class="logo-text">Get<span>Away</span></div>
+            </div>
+            <div class="footer-links">
+                <a href="#benefits">Features</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#testimonials">Case Studies</a>
+                <a href="demo.html">Demo</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <p>Email: lameckzachary17@gmail.com | Phone: +254 752 336 871</p>
+            <div class="copyright">
+                &copy; 2023 GetAway Digital Menu Solutions. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
