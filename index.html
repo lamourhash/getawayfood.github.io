@@ -308,6 +308,7 @@
             transition: all 0.3s;
             overflow: hidden;
             border: 1px solid #eee;
+            position: relative;
         }
         
         .menu-item:hover {
@@ -381,6 +382,38 @@
             background: linear-gradient(to right, rgb(245, 3, 3), rgb(40, 230, 7));
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
+
+        /* Ordered Items Styles */
+        .ordered-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28e607;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+            animation: fadeInUp 0.5s;
+        }
+
+        .menu-item.ordered .item-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(40, 230, 7, 0.2);
+            z-index: 1;
+        }
+
+        .order-btn.ordered {
+            background: #28e607;
+            pointer-events: none;
+        }
+        
         .features {
                 display: flex;
                 flex-direction: column;
@@ -398,9 +431,9 @@
             }
             
             .feature:hover {
-                background: linear-gradient(to right, rgb(245, 3, 3), rgb(40, 230, 7));
+                background: ;
                 transform: translateY(-5px);
-                color: white;
+                
             }
             
             .feature i {
@@ -410,14 +443,126 @@
             }
             
             .feature:hover i {
-                color: white;
+                color: #14ed05;
             }
             
             .feature h3 {
                 margin-bottom: 10px;
                 font-size: 1.2rem;
             }
-        
+            /* Tablet styles */
+            @media (min-width: 768px) {
+                .container {
+                    max-width: 720px;
+                }
+                
+                .header-content {
+                    flex-direction: row;
+                }
+                
+                .logo-container {
+                    margin-bottom: 0;
+                }
+                
+                .logo-img {
+                    width: 70px;
+                    height: 70px;
+                    font-size: 28px;
+                }
+                
+                .logo-text {
+                    font-size: 28px;
+                }
+                
+                nav ul {
+                    flex-wrap: nowrap;
+                    gap: 15px;
+                }
+                
+                nav ul li a {
+                    font-size: 18px;
+                }
+                
+                .hero {
+                    height: 300px;
+                }
+                
+                .hero-content h1 {
+                    font-size: 2.5rem;
+                }
+                
+                .hero-content p {
+                    font-size: 1.5rem;
+                }
+                
+                .features {
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                }
+                
+                .feature {
+                    flex: 1 1 300px;
+                }
+                
+                .menu-items {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                
+                .benefits-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                
+                .section-header h2 {
+                    font-size: 2.5rem;
+                }
+                
+                iframe {
+                    height: 300px;
+                }
+            }
+            
+            /* Desktop styles */
+            @media (min-width: 992px) {
+                .container {
+                    max-width: 960px;
+                }
+                
+                .menu-items {
+                    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                }
+                
+                .benefits-grid {
+                    grid-template-columns: repeat(4, 1fr);
+                }
+                
+                iframe {
+                    height: 400px;
+                }
+            }
+            
+            /* Animations */
+            @keyframes fadeInUp {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            
+            .benefit-card {
+                animation: fadeInUp 0.6s ease forwards;
+                opacity: 0;
+            }
+            
+            .benefit-card:nth-child(1) { animation-delay: 0.1s; }
+            .benefit-card:nth-child(2) { animation-delay: 0.2s; }
+            .benefit-card:nth-child(3) { animation-delay: 0.3s; }
+            .benefit-card:nth-child(4) { animation-delay: 0.4s; }
+            .weston a{
+              text-decoration: none;
+              background: linear-gradient(to right,rgb(245, 3, 3), rgb(40, 230, 7));
+              padding: 10px 25px;
+              border-radius: 5px;
+              text-align: center;
+              display: inline;
+            }
         /* ===== Cart Sidebar ===== */
         .cart-sidebar {
             position: fixed;
@@ -605,6 +750,14 @@
                 grid-template-columns: repeat(3, 1fr);
             }
         }
+        .container h2 {
+            width: 100%;
+            padding: 0 15px;
+            margin: 0 auto;
+            max-width: 1200px;
+            text-align: center;
+            color: #f50303;
+        }
     </style>
 </head>
 <body>
@@ -689,7 +842,10 @@
             </div>
         </div>
     </section>
-
+    <section class="weston">
+    <iframe src="images/weston.jpg" name="Weston" width="100%" height="300px" title="Weston hotel"></iframe>
+    <a href="https://westonhotel.com/" target="Weston">Weston hotel</a>
+    </section>
     <!-- Features Section -->
     <section class="getaway-description">
         <div class="container">
@@ -748,6 +904,9 @@
             
             // Initialize cart
             updateCartUI();
+            
+            // Mark any existing cart items as ordered
+            cart.forEach(item => markAsOrdered(item.id));
         });
 
         function showWelcomeModal() {
@@ -833,6 +992,7 @@
                 const menuItem = document.createElement('div');
                 menuItem.className = `menu-item ${item.category}`;
                 menuItem.dataset.category = item.category;
+                menuItem.dataset.id = item.id;
                 menuItem.innerHTML = `
                     <div class="item-image">
                         <img src="${item.image}" alt="${item.name}">
@@ -891,11 +1051,13 @@
             
             updateCartUI();
             animateAddToCart(itemId);
+            markAsOrdered(itemId);
         }
 
         function removeFromCart(itemId) {
             cart = cart.filter(item => item.id !== itemId);
             updateCartUI();
+            unmarkAsOrdered(itemId);
         }
 
         function updateQuantity(itemId, newQuantity) {
@@ -903,6 +1065,66 @@
             if (item) {
                 item.quantity = Math.max(1, newQuantity);
                 updateCartUI();
+                
+                // Update the badge if quantity changes
+                const menuItemElement = document.querySelector(`.menu-item[data-id="${itemId}"]`);
+                if (menuItemElement) {
+                    const badge = menuItemElement.querySelector('.ordered-badge');
+                    if (badge) {
+                        badge.textContent = `In Cart: ${item.quantity}`;
+                        if (newQuantity < 1) {
+                            unmarkAsOrdered(itemId);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Mark items as ordered in the menu
+        function markAsOrdered(itemId) {
+            const menuItemElement = document.querySelector(`.menu-item[data-id="${itemId}"]`);
+            if (menuItemElement) {
+                menuItemElement.classList.add('ordered');
+                
+                // Create or update the ordered badge
+                let badge = menuItemElement.querySelector('.ordered-badge');
+                if (!badge) {
+                    badge = document.createElement('div');
+                    badge.className = 'ordered-badge';
+                    menuItemElement.querySelector('.item-image').prepend(badge);
+                }
+                
+                // Find the quantity in cart
+                const cartItem = cart.find(item => item.id === itemId);
+                if (cartItem) {
+                    badge.textContent = `In Cart: ${cartItem.quantity}`;
+                }
+                
+                // Update the button
+                const btn = menuItemElement.querySelector('.order-btn');
+                if (btn) {
+                    btn.classList.add('ordered');
+                    btn.textContent = 'Added to Cart';
+                }
+            }
+        }
+
+        // Remove ordered marking from items
+        function unmarkAsOrdered(itemId) {
+            const menuItemElement = document.querySelector(`.menu-item[data-id="${itemId}"]`);
+            if (menuItemElement) {
+                menuItemElement.classList.remove('ordered');
+                const badge = menuItemElement.querySelector('.ordered-badge');
+                if (badge) {
+                    badge.remove();
+                }
+                
+                // Update the button
+                const btn = menuItemElement.querySelector('.order-btn');
+                if (btn) {
+                    btn.classList.remove('ordered');
+                    btn.textContent = 'Add to Order';
+                }
             }
         }
 
@@ -981,8 +1203,18 @@
                 return;
             }
             
-            // In a real implementation, this would redirect to a checkout page
-            // or show a form to collect room number/payment info
+            // Clear all ordered markers
+            document.querySelectorAll('.menu-item.ordered').forEach(item => {
+                item.classList.remove('ordered');
+                const badge = item.querySelector('.ordered-badge');
+                if (badge) badge.remove();
+                const btn = item.querySelector('.order-btn');
+                if (btn) {
+                    btn.classList.remove('ordered');
+                    btn.textContent = 'Add to Order';
+                }
+            });
+            
             alert(`Order placed! Total: $${calculateTotal().toFixed(2)}\n\nThank you for your order!`);
             cart = [];
             updateCartUI();
